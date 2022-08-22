@@ -13,6 +13,7 @@ public class Target : MonoBehaviour
 
     public int pointValue;
 
+
     public ParticleSystem explosionParticle;
     void Start()
     {
@@ -33,12 +34,14 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Destroy(gameObject);
-        Instantiate(explosionParticle,transform.position,explosionParticle.transform.rotation);
-        gameManager.UpdateScore(pointValue);
+        gameIsNotOver(gameManager.gameActive);
+        Trigger(gameObject.CompareTag("Bad"));
+      
     }
+
     private void OnTriggerEnter(Collider other)
     {
+        Trigger(gameObject.CompareTag("Good"));
         Destroy(gameObject);
     }
     Vector3 targetTorque()
@@ -49,5 +52,21 @@ public class Target : MonoBehaviour
     {
         return new Vector3(Random.Range(-targetPositionValue, targetPositionValue), -2);
     }
+    private void Trigger(bool gameOver)
+    {
+        if (gameOver)
+        {
+            gameManager.gameOver();
+        }
+    }
 
+    private void gameIsNotOver(bool gameActive)
+    {
+        if (gameActive)
+        {
+            Destroy(gameObject);
+            Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+            gameManager.UpdateScore(pointValue);
+        }
+    }
 }
