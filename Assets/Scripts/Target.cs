@@ -11,6 +11,7 @@ public class Target : MonoBehaviour
     public int targetPositionValue = 4;
     private GameManager gameManager;
 
+
     public int pointValue;
 
 
@@ -36,7 +37,7 @@ public class Target : MonoBehaviour
     {
         gameIsNotOver(gameManager.gameActive);
         Trigger(gameObject.CompareTag("Bad"));
-      
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -54,9 +55,16 @@ public class Target : MonoBehaviour
     }
     private void Trigger(bool gameOver)
     {
+       
         if (gameOver)
         {
-            gameManager.gameOver();
+            gameManager.lives--;
+            gameManager.livesText.text ="Lives:"+ gameManager.lives;
+            if (gameManager.lives <= 0)
+            {  //  gameManager.gameOver();
+                gameManager.changeState = GameManager.GameState.gameOver;
+                gameManager.livesText.text = "Lives: "+0;
+            }
         }
     }
 
@@ -66,6 +74,17 @@ public class Target : MonoBehaviour
         {
             Destroy(gameObject);
             Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+            gameManager.UpdateScore(pointValue);
+        }
+    }
+    public void DestroyTarget()
+    {
+        if (gameManager.gameActive)
+        {
+            Destroy(gameObject);
+            Trigger(gameObject.CompareTag("Bad"));
+            Instantiate(explosionParticle, transform.position,
+            explosionParticle.transform.rotation);
             gameManager.UpdateScore(pointValue);
         }
     }

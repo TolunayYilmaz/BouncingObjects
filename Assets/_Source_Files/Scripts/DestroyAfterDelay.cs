@@ -10,9 +10,6 @@ public class DestroyAfterDelay : MonoBehaviour
         Destroy(gameObject, 2);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+
 }

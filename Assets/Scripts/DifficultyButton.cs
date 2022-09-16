@@ -24,6 +24,7 @@ public class DifficultyButton : MonoBehaviour
         gameManager.StartGame(diffucultyMode);
         TitleScreen.SetActive(false);
         
+        
     }
 
 }
